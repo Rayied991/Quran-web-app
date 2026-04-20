@@ -36,7 +36,7 @@ A modern, responsive web application for reading the Holy Quran with translation
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/Rayied991/Quran-web-app.git
 cd quran-web-app
 
 # Install dependencies
