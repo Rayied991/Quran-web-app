@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-   "server": "tsx app/server/server.ts",
+    "server": "tsx server/server.ts",
 "dev:all": "concurrently \"npm run dev\" \"npm run server\""
   },
   "dependencies": {
@@ -24,11 +24,9 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
-    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
