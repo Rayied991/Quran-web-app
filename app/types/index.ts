@@ -29,17 +29,20 @@ export interface Settings {
   arabicFont: string;
   arabicFontSize: number;
   translationFontSize: number;
+   theme: 'light' | 'dark';
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  arabicFont: 'Amiri',
+  arabicFont: 'Amiri Quran',
   arabicFontSize: 28,
   translationFontSize: 16,
+  theme: 'light',
 };
 
 export const ARABIC_FONTS = [
-  { name: 'Amiri', value: 'Amiri' },
-  { name: 'Nunito', value: 'Nunito' },
-  { name: 'Scheherazade', value: 'Scheherazade' },
   { name: 'Amiri Quran', value: 'Amiri Quran' },
+  { name: 'Scheherazade New', value: 'Scheherazade New' },
+  { name: 'Noto Naskh Arabic', value: 'Noto Naskh Arabic' },
+  { name: 'Noto Nastaliq Urdu', value: 'Noto Nastaliq Urdu' },
+  { name: 'Amiri', value: 'Amiri' },
 ];

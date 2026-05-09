@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
@@ -16,21 +17,27 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setSettings(getSettings());
-    setMounted(true);
-  }, []);
+useEffect(() => {
+  const saved = getSettings();
+  setSettings(saved);
+  document.documentElement.classList.toggle('dark', saved.theme === 'dark');
+  setMounted(true);
+}, []);
 
-  const updateSettings = (newSettings: Partial<Settings>) => {
-    const updated = { ...settings, ...newSettings };
-    setSettings(updated);
-    saveSettings(updated);
-  };
+const updateSettings = (newSettings: Partial<Settings>) => {
+  const updated = { ...settings, ...newSettings };
+  setSettings(updated);
+  saveSettings(updated);
+  if (newSettings.theme) {
+    document.documentElement.classList.toggle('dark', newSettings.theme === 'dark');
+  }
+};
 
-  const resetSettings = () => {
-    setSettings(DEFAULT_SETTINGS);
-    localStorage.removeItem('quran-settings');
-  };
+const resetSettings = () => {
+  setSettings(DEFAULT_SETTINGS);
+  localStorage.removeItem('quran-settings');
+  document.documentElement.classList.remove('dark');
+};
 
   return (
     <SettingsContext.Provider value={{ settings, updateSettings, resetSettings }}>

@@ -6,9 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+   "server": "tsx app/server/server.ts",
+"dev:all": "concurrently \"npm run dev\" \"npm run server\""
   },
   "dependencies": {
+    "@hono/node-server": "^2.0.2",
+    "fuse.js": "^7.3.0",
+    "hono": "^4.12.18",
     "lucide-react": "^1.8.0",
     "next": "16.2.4",
     "react": "19.2.4",
@@ -19,9 +24,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

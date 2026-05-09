@@ -25,6 +25,16 @@ body {
   font-family: var(--font-nunito), system-ui, sans-serif;
 }
 
+/* Arabic Text Styling */
+[dir="rtl"],
+.arabic-text,
+div[style*="arabicFont"] {
+  font-kerning: auto;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -46,6 +56,27 @@ body {
 
 .dark ::-webkit-scrollbar-thumb {
   background: #475569;
+}
+
+/* Smooth transitions */
+* {
+  @apply transition-colors duration-200;
+}
+
+/* Remove transition for animations */
+.animate-pulse,
+.animate-bounce {
+  @apply transition-none!;
+}
+
+/* Responsive text sizing */
+@media (max-width: 640px) {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
