@@ -1,105 +1,173 @@
 # Quran Web App
 
-A modern, responsive web application for reading the Holy Quran with translations, built with Next.js and Tailwind CSS.
+A modern Quran reading experience built with Next.js, TypeScript, Tailwind CSS, and Hono.
 
-![Quran Web App](https://img.shields.io/badge/Next.js-16.2.4-black?style=flat&logo=next.js)
-![React](https://img.shields.io/badge/React-19.2.4-61DAFB?style=flat&logo=react)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=flat&logo=tailwind-css)
+Read the full Quran with Arabic text, English translation, transliteration, audio playback, advanced search, and customizable settings — all with a clean, responsive UI inspired by QuranMazid.
+
+---
 
 ## Features
 
-- 📖 **Surah List** - Browse all 114 chapters of the Holy Quran
-- 🌐 **Bilingual Display** - Arabic text with English transliteration and translation
-- 🔍 **Search Functionality** - Search ayahs by translation text
-- ⚙️ **Settings Panel** - Customize your reading experience:
-  - Arabic font selection (4 font options)
-  - Adjustable Arabic font size
-  - Adjustable translation font size
-- 💾 **Persistent Settings** - Your preferences are saved automatically
-- 📱 **Responsive Design** - Works on desktop, tablet, and mobile devices
+**Reading**
+- All 114 Surahs with Arabic text, English translation, and transliteration
+- Right-aligned Arabic typography with adjustable font and size
+- Surah metadata — Makkah/Madinah origin, verse count
+
+**Audio**
+- Per-ayah and full Surah playback
+- Auto-advance to next ayah
+- Seekable progress bar, pause/resume, current verse indicator
+
+**Search**
+- Search Arabic text, translation, or transliteration
+- Keyboard navigation (↑↓ Enter Esc), loading state, empty state
+- API-powered with 300ms debounce
+
+**Customization**
+- Multiple Arabic font options (Amiri Quran, Scheherazade New, Noto Naskh Arabic, and more)
+- Adjustable Arabic and translation font sizes
+- Dark / Light theme toggle
+- All settings persisted via localStorage
+
+**Performance**
+- Static Site Generation (SSG) for all 114 Surahs
+- Cached Quran data layer
+- Next.js App Router with loading and error boundaries
+- TypeScript throughout
+
+---
 
 ## Tech Stack
 
-- **Frontend**: Next.js 16 (App Router)
-- **UI Framework**: React 19
-- **Styling**: Tailwind CSS 4
-- **Data Source**: [quran-json](https://github.com/risan/quran-json) via jsDelivr CDN
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 16, React 19 |
+| Styling | Tailwind CSS 4 |
+| Language | TypeScript |
+| Backend | Hono + Node.js |
+| State | React Context API |
+| Data | quran-json |
+| Audio | AlQuran Cloud API |
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ 
-- npm or yarn
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/Rayied991/Quran-web-app.git
-cd quran-web-app
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-The app will be available at [http://localhost:3000](http://localhost:3000)
-
-### Build for Production
-
-```bash
-npm run build
-npm start
-```
+---
 
 ## Project Structure
 
 ```
 quran-web-app/
 ├── app/
+│   ├── api/
+│   │   ├── search/route.ts
+│   │   ├── surahs/route.ts
+│   │   └── surah/[id]/route.ts
 │   ├── components/
-│   │   ├── SurahList.tsx          # List of all 114 surahs
-│   │   ├── AyatView.tsx           # Display verses with Arabic + translation
-│   │   ├── SearchBar.tsx          # Search functionality
-│   │   ├── SettingsPanel.tsx      # Sidebar settings panel
-│   │   └── SettingsPanelWrapper.tsx
+│   │   ├── AyatView.tsx
+│   │   ├── SearchBar.tsx
+│   │   ├── SettingsPanel.tsx
+│   │   ├── SurahList.tsx
+│   │   ├── SurahSidebar.tsx
+│   │   └── IconSidebar.tsx
 │   ├── lib/
-│   │   ├── quran.ts               # Fetch Quran data from CDN
-│   │   ├── settings.ts            # localStorage persistence
-│   │   └── settings-context.tsx   # React Context for settings
-│   ├── types/
-│   │   └── index.ts               # TypeScript interfaces
+│   │   ├── quran.ts
+│   │   ├── settings.ts
+│   │   └── settings-context.tsx
 │   ├── [surah]/
-│   │   ├── page.tsx               # Dynamic route for surah details
-│   │   └── SurahPageContent.tsx
-│   ├── globals.css
+│   │   ├── page.tsx
+│   │   └── loading.tsx
+│   ├── error.tsx
+│   ├── loading.tsx
 │   ├── layout.tsx
-│   └── page.tsx                   # Home - Surah list
+│   └── page.tsx
+├── server/
+│   ├── index.ts
+│   └── server.ts
 ├── public/
+│   ├── fonts/
+│   ├── images/
+│   └── icons/
 ├── package.json
 ├── tsconfig.json
 └── next.config.ts
 ```
 
-## Data Source
+---
 
-Quran data is fetched from:
+## API Routes
+
 ```
-https://cdn.jsdelivr.net/npm/quran-json@3.1.2/dist/quran_en.json
+GET /api/surahs          — list all 114 surahs
+GET /api/surah/:id       — single surah with verses
+GET /api/search?q=allah  — search ayahs
 ```
 
-This includes:
-- Uthmani Quran text from the Noble Qur'an Encyclopedia
-- Transliteration from Tanzil.net
-- English translation
-
-## License
-
-This project is for educational purposes. The Quran text and translations are from open-source sources.
+Hono backend (port 3001):
+```
+GET /                    — status
+GET /health              — health check
+```
 
 ---
 
-Built with ❤️ using Next.js and Tailwind CSS
+## Getting Started
+
+```bash
+git clone https://github.com/Rayied991/Quran-web-app.git
+cd quran-web-app
+npm install
+```
+
+Run Next.js + Hono together:
+```bash
+npm run dev:all
+```
+
+Or separately:
+```bash
+npm run dev     # http://localhost:3000
+npm run server  # http://localhost:3001
+```
+
+Production build:
+```bash
+npm run build
+npm start
+```
+
+---
+
+## 🔥 Key Features Implemented
+
+- ✅ Next.js App Router
+- ✅ Static Site Generation (SSG)
+- ✅ Full Quran Reader
+- ✅ Full Surah Audio Playback
+- ✅ Arabic + English Search
+- ✅ Dark Theme
+- ✅ Responsive Design
+- ✅ API Architecture
+- ✅ Hono Backend
+- ✅ Cached Quran Fetching
+- ✅ Keyboard Search Navigation
+- ✅ TypeScript Architecture
+- ✅ Persistent User Settings
+
+---
+
+## Data Sources
+
+- Quran text — [quran-json](https://github.com/risan/quran-json)
+- Audio — [AlQuran Cloud API](https://alquran.cloud/api)
+
+---
+
+## ❤️ Acknowledgements
+
+- QuranMazid inspiration
+- quran-json
+- AlQuran Cloud API
+- Next.js
+- Tailwind CSS
+
+## License
+
+Built for educational purposes. Quran text and translations are sourced from publicly available open-source datasets.
